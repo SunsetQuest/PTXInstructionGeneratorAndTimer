@@ -1,0 +1,150 @@
+﻿// This file represents the PTX ISA. Comments are allowed in this file. (/*..*/ and //..)
+
+[class=add,popularity=4,ticks=15] add.(rn|rz).(|sat).(f32) _d$3, _s$3, _s$3;
+[class=sub,popularity=4,ticks=15] sub.(rn|rz).(|sat).(f32) _d$3, _s$3, _s$3;
+[class=mul,popularity=4,ticks=15] mul.(rn|rz).(|sat).(f32) _d$3, _s$3, _s$3;
+[class=mad,popularity=3,ticks=15] mad.(lo|hi).(s32|u32) _d$2, _s$2, _s$2, _s$2;
+[class=mad,popularity=3,ticks=15] mad.hi.sat.(s32) _d$1, _s$1, _s$1, _s$1;
+[class=div,popularity=4,ticks=15] div.approx.(f32) _d$1, _s$1, _s$1;
+[class=abs,popularity=2,ticks=15] abs.(f32) _d$1, _s$1;
+[class=neg,popularity=2,ticks=15] neg.(f32) _d$1, _s$1;
+[class=max,popularity=3,ticks=15] max.(f32) _d$1, _s$1, _s$1;
+[class=min,popularity=3,ticks=15] min.(f32) _d$1, _s$1, _s$1;
+[class=set,popularity=3,ticks=15]
+[subpopularity=5]                 set.(CmpOpF).(f32).(f32) _d$2, _s$3, _s$3;
+[subpopularity=1]                 set.(CmpOpF).(BoolOp).(f32).(f32) _d$3, _s$4, _s$4, (!|)_sPred;
+[subpopularity=1]                 setp.(CmpOpF).(f32) _dPred, _s$2, _s$2;
+[subpopularity=1]                 setp.(CmpOpF).(BoolOp).(f32) _dPred, _s$3, _s$3, (!|)_sPred;
+[class=slt,popularity=3,ticks=15] selp.(f32) _d$1, _s$1, _s$1, _sPred;
+                                  slct.(f32).(f32) _d$1, _s$1, _s$1, _s$2;
+[class=sat,popularity=3,ticks=15] cvt.(sat).(f32).(f32) _d$2, _s$3;
+                                  cvt.rpi.(f32).(f32) _d$1, _s$2;       //added 6-1-09 - ceilf(a)
+[class=rcpl,popularity=1,ticks=15]rcp.approx.(f32) _d$1, _s$1;
+[class=sqrt,popularity=2,ticks=15]sqrt.approx.(f32) _d$1, _s$1;
+[class=rsqt,popularity=2,ticks=15]rsqrt.approx.(f32) _d$1, _s$1;
+[class=trig,popularity=1,ticks=15]sin.approx.(f32) _d$1, _s$1;
+                                  cos.approx.(f32) _d$1, _s$1;
+[class=log,popularity=2,ticks=15] lg2.approx.(f32) _d$1, _s$1;
+//[class=exp,popularity=2,ticks=15] ex2.(f32) _d$1, _s$1;
+
+
+//////////////////////////////
+//Removed the below because these instruction did not fit or were not ready for my genetic algorithm.
+////////////////////////////// 
+//add.(|sat).(IType) d$2, s$2, s$2;
+//add.(|RndMdF).(|sat).(f32|f64) d$3, s$3, s$3;
+//sub.(|sat).(IType) d$2, s$2, s$2;
+//sub.(|RndMdF).(|sat).(f32|f64) d$3, s$3, s$3;
+
+//mul.(hi|lo).(IType) d$2, s$2, s$2;
+//mul.wide.s16 ds32, ss16, ss16;
+//mul.wide.u16 du32, su16, su16;
+//mul.wide.s32 ds64, ss32, ss32;
+//mul.wide.u32 du64, su32, su32;
+//mul.(|RndMdF).(|sat).(f32|f64) d$3, s$3, s$3;
+
+//mad.(hi|lo).(|sat).(IType) d$3, s$3, s$3, s$3;
+//mad.wide.s16 ds32, ss16, ss16, ss16;
+//mad.wide.u16 du32, su16, su16, ss16;
+//mad.wide.s32 ds64, ss32, ss32, ss32;
+//mad.wide.u32 du64, su32, su32, ss32;
+//mad.(|RndMdF).(|sat).(f32|f64) d$3, s$3, s$3, s$3;
+//mul24.(hi|lo).(u32|s32) d$2, s$2, s$2;
+//mad24.(hi|lo).(|sat).(u32|s32) d$3, s$3, s$3, s$3;
+//sad.(IType) d$1, s$1, s$1, s$1;
+//div.(|sat).(f32|f64) d$2, s$2, s$2;
+//div.(u64|s64) d$1, s$1, s$1;
+//div.wide.s16 ds32, ss16, ss16;
+//div.wide.u16 du32, su16, su16;
+//div.wide.s32 ds64, ss32, ss32;
+//div.wide.u32 du64, su32, su32;
+//rem.wide.s16 ds32, ss16, ss16;
+//rem.wide.u16 du32, su16, su16;
+//rem.wide.s32 ds64, ss32, ss32;
+//rem.wide.u32 du64, su32, su32;
+//abs.(s16|s32|s64|f32|f64) d$1, s$1;
+//neg.(s16|s32|s64|f32|f64) d$1, s$1;
+//max.(IType|f32|f64) d$1, s$1, s$1;
+//min.(IType|f32|f64) d$1, s$1, s$1;
+
+//set.(CmpOpU).(s32|u32|f32).(u16|u32|u64) d$2, s$3, s$3;
+//set.(CmpOpS).(s32|u32|f32).(s16|s32|s64) d$2, s$3, s$3;
+//set.(CmpOpB).(s32|u32|f32).(b16|b32|b64) d$2, s$3, s$3;
+//set.(CmpOpF).(s32|u32|f32).(f32|f64) d$2, s$3, s$32;
+//set.(CmpOpU).(BoolOp).(s32|u32|f32).(u16|u32|u64) d$3, s$4, s$4, (!|)sPred;
+//set.(CmpOpS).(BoolOp).(s32|u32|f32).(s16|s32|s64) d$3, s$4, s$4, (!|)sPred;
+//set.(CmpOpB).(BoolOp).(s32|u32|f32).(b16|b32|b64) d$3, s$4, s$4, (!|)sPred;
+//set.(CmpOpF).(BoolOp).(s32|u32|f32).(f32|f64) d$3, s$4, s$4, (!|)sPred;
+
+//setp.(CmpOpU).(u16|u32|u64) dPred, s$2, s$2;
+//setp.(CmpOpS).(s16|s32|s64) dPred, s$2, s$2;
+//setp.(CmpOpB).(b16|b32|b64) dPred, s$2, s$2;
+//setp.(CmpOpF).(f32|f64) dPred, s$2, s$2;
+//setp.(CmpOpU).(u16|u32|u64) dPred| dPred, s$2, s$2;
+//setp.(CmpOpS).(s16|s32|s64) dPred| dPred, s$2, s$2;
+//setp.(CmpOpB).(b16|b32|b64) dPred| dPred, s$2, s$2;
+//setp.(CmpOpF).(f32|f64) dPred| dPred, s$2, s$2;
+//setp.(CmpOpU).(BoolOp).(u16|u32|u64) dPred, s$3, s$3, (!|)sPred;
+//setp.(CmpOpS).(BoolOp).(s16|s32|s64) dPred, s$3, s$3, (!|)sPred;
+//setp.(CmpOpB).(BoolOp).(b16|b32|b64) dPred, s$3, s$3, (!|)sPred;
+//setp.(CmpOpF).(BoolOp).(f32|f64) dPred, s$3, s$3, (!|)sPred;
+//setp.(CmpOpU).(BoolOp).(u16|u32|u64) dPred, dPred, s$3, s$3, (!|)sPred;
+//setp.(CmpOpS).(BoolOp).(s16|s32|s64) dPred, dPred, s$3, s$3, (!|)sPred;
+//setp.(CmpOpB).(BoolOp).(b16|b32|b64) dPred, dPred, s$3, s$3, (!|)sPred;
+//setp.(CmpOpF).(BoolOp).(f32|f64) dPred, dPred, s$3, s$3, (!|)sPred;
+
+//selp.(IType|f32|f64|BType) d$1, s$1, s$1, sPred;
+
+//slct.(IType|f32|f64|BType).(s32|f32) d$1, s$1, s$1, s$2;
+
+//and.(BType|Pred) d$1, s$1, s$1;
+//or.(BType|Pred) d$1, s$1, s$1;
+//xor.(BType|Pred) d$1, s$1, s$1;
+//not.(BType|Pred) d$1, s$1;
+//cnot.(BType) d$1, s$1;
+//shl.(BType) d$1, s$1, s$1;
+//shr.(BType|IType) d$1, s$1, s$1;
+
+//mov.(IType|f32|f64|BType|Pred) d$1, s$1; //s$|sreg|NamVar|lblAdr|s$[Const],Const
+
+//ld.(const|global|local|param|shared).(|Vector).(b08|u08|s08|IType|f32|f64|BType) d$3$2, [s$3$2]; //s$|NamVar|a+Const|Const
+//ld.volatile.(global|shared).(|Vector).(b08|u08|s08|IType|f32|f64|BType) d$3$2, [s$3$2];          // s$|NamVar|a+Const|Const
+
+//st.(global|local|shared).(|Vector).(b08|u08|s08|IType|f32|f64|BType) [d$3], s$3;                   //d$|d$+Const|Const|NamVar
+//st.volatile.(global|shared).(|Vector).(b08|u08|s08|IType|f32|f64|BType) [d$3], s$3;                //d$|d$+Const|Const|NamVar
+
+//cvt.(|sat).(u08|s08|IType|f16|f32|f64).(b08|u08|s08|IType|f16|f32|f64) d$2, s$3;
+//cvt.(RndMdI).(u08|s08|IType).(f16|f32|f64) d$2, s$3;
+//cvt.(RndMdI).f16.f16 df16, sf16;
+//cvt.(RndMdI).f32.f32 df32, sf32;
+//cvt.(RndMdI).f64.f64 df64, sf64;
+//cvt.(RndMdF).(|sat).(f16|f32|f64).(b08|u08|s08|IType) d$3, s$4;
+
+////tex.(1d|2d|3d).v4.(u32|s32|f32).(s32|f32) d$2, [s$, s$3];
+////bar.sync const;
+////bra
+////call
+////ret
+////exit
+
+////atom.(global|shared).(and|or|xor|exch).b32 db32, [sb32], sb32;  //s$|NamVar|a+Const|Const
+////atom.(global|shared).cas.(b32|b64) d$2, [s2$], s$2, s$2;       //s$|NamVar|a+Const|Const
+////atom.(global|shared).exch.b64 db64, [sb64], sb64;               //s$|NamVar|a+Const|Const
+////atom.(global|shared).(add|min|max|inc|dec).u32 du32, [su32], su32;//s$|NamVar|a+Const|Const
+////atom.(global|shared).(add).u64 du64, [su64], su64;              //s$|NamVar|a+Const|Const
+////atom.(global|shared).(add|min|max).(s32|f32) d$3, [s$3], s$3;   //s$|NamVar|a+Const|Const
+
+////red.(global|shared).(and|or|xor|exch).b32 db32, [sb32];  //s$|NamVar|a+Const|Const
+////red.(global|shared).cas.b32 db32, [sb32], sb32, sb32;    //s$|NamVar|a+Const|Const
+////red.(global|shared).(add|min|max|inc|dec).u32 du32, [su32)];//s$|NamVar|a+Const|Const
+////red.(global|shared).(add).u64 d$3, [su64];            //s$|NamVar|a+Const|Const
+////red.(global|shared).(add|min|max).(s32|f32) d$3, [s$3];//s$|NamVar|a+Const|Const
+
+////vote.(all|any|uni).Pred  dPred, (!|)sPred;
+//rcp.(f32|f64) d$1, s$1;
+//sqrt.(f32|f64) d$1, s$1;
+//rsqrt.(f32|f64) d$1, s$1;
+//sin.(f32) d$1, s$1;
+//cos.(f32) d$1, s$1; 
+//lg2.(f32) d$1, s$1;
+//ex2.(f32) d$1, s$1; //test

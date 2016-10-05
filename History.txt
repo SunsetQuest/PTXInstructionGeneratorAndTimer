@@ -1,5 +1,0 @@
-Apr 27th 2009 - Created first working version for PTX 1.x
-Sep 25th 2011 - Updated for newer PTX version
-Sep 25th 2016 - Posted on GitHub and added license headers ... exactly 5 years later =)
-
-Note: this project DOES NOT RUN as is.  It needs to be updated for newer PTX generations.
