@@ -1,9 +1,7 @@
 # PTX Instruction Generator and Timer
 ## a tool to create a list of all the different types of PTX instructions from a main list
 
-NOTE: This tool is CURRENTLY BROKEN AND OUT OF DATE so it is just being posted to help others. Feel free to improve.  Thanks!
-
-This tool takes a list of PTX instructions and expands them out to all their different possible variants and then times them.
+This tool takes a list of PTX instructions and expands them out to all their different possible variants and then times the latency of the instruction.
 
 ###What this tool does...
 
@@ -17,21 +15,21 @@ This tool takes a list of PTX instructions and expands them out to all their dif
 [class=div,popularity=4] div.approx.(f32) _d$1, _s$1, _s$1;
 ```
 
-2) It will then expand it to every possible version of that instruction. In the first line above, it would take the "add.(rn|rz).(|sat).(f32) _d$3, _s$3, _s$3;" and expand it out to all the possible different versions. It will basically take all the versions of ("rn" or "rz") and ("" or "sat") to generate four different combinations.
+2) It will then expand each line to every possible version of that instruction. In the first line above, it would take the "add.(rn|rz).(|sat).(f32) _d$3, _s$3, _s$3;" and expand it out to all the possible different versions. It will basically take all the versions of ("rn" or "rz") and ("" or "sat") to generate four different combinations.
 
 add.rn.f32 _df32, _sf32, _sf32;
 add.rn.sat.f32 _df32, _sf32, _sf32;
 add.rz.f32 _df32, _sf32, _sf32;
 add.rz.sat.f32 _df32, _sf32, _sf32;
 
-The "$3" in the params was converted to whats in the 3rd parentheses. In this case "f32" was.
+The "$3" in the params was converted to what's in the 3rd parentheses. In this case "f32" was.
 
-One final note here is the "s" or "d" on the parameters right after the underscore.  These specify if its a source(intput) or destination(output) register.
+One final note here is the "s" or "d" on the parameters right after the underscore.  These specify if it's a source(input) or destination(output) register.
 
 3) After expanding each item it will then time it. Please note that some items will have zero ticks. This happens when the PTX is converted to SASS and the compiler optimizes out the instruction we are trying to test. So in a way it is 0 clock cycles but if the test code is changed up a bit it will probably reflect the real clock cycle cost.
 
-4) Now everything gets outputed into a xml file and c# class file.  Here are some examples of each:
-The XML file:
+4) Now everything gets outputted into a xml file and C# class file.  Here are some examples of each:
+####The XML output file:
 ```
 <?xml version="1.0"?>
 <!--PTX Instructions List-->
@@ -75,8 +73,9 @@ The XML file:
 </Instructions>
 </Everything>
 ```
-The C# version..
+####The C# output version..
 
+```
 using System;
 using System.Collections.Generic;
 
@@ -122,13 +121,10 @@ public static Inst[] insts = {
   }
 ... plus some useful functions and classes
 }
+```
 
 ###Change History
-Apr 27 2009 
-	Created first working for PTX 1.x
-Sep 25 2011
-	Updated for newer PTX version
-Sep 9 2016 
-	Posted on GitHub and added license headers ... exactly 5 years later =)
-Oct 2 2016 
-	Updated C# Cuda wrapper from Cuda.Net to ManagedCuda. It now at least runs. Some documentation and code cleanup was also done.
+####Apr 27 2009 - Created first working for PTX 1.x
+####Sep 25 2011 - Updated for newer PTX version
+####Sep  9 2016 - Posted on GitHub and added license headers ... exactly 5 years later =)
+####Oct  2 2016 - Updated C# Cuda wrapper from Cuda.Net to ManagedCuda. It now runs but it could still use more updating. Some documentation and code cleanup was also done.
