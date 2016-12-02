@@ -41,7 +41,7 @@
   <ItemGroup>
     <Reference Include="ManagedCuda, Version=6.5.11.0, Culture=neutral, PublicKeyToken=242d898828717aa0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Users\ryan.DUCK\Desktop\kunzmi-managedCuda-e7237be\ManagedCUDA\bin\Debug\ManagedCuda.dll</HintPath>
+      <HintPath>.\ManagedCuda.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
